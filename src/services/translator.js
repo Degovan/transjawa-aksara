@@ -8,7 +8,8 @@ import puppeteer from "puppeteer-core";
 export async function translateWithKongresAksaraJawa(inputText) {
   const browser = await puppeteer.launch({
     headless: true,
-    executablePath: "google-chrome-stable",
+    executablePath:
+      process.env.CHROME_EXECUTABLE_PATH || "google-chrome-stable",
   });
 
   const page = await browser.newPage();
