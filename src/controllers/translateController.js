@@ -6,16 +6,16 @@ import { translateWithKongresAksaraJawa } from "../services/translator.js";
  * @param {Response} res - Express response object
  */
 export async function translateText(req, res) {
-  const { indo } = req.body;
+  const { text } = req.body;
 
-  if (!indo) {
+  if (!text) {
     return res.status(400).json({
-      error: 'Field "indo" is required.',
+      error: 'Field "text" is required.',
     });
   }
 
   try {
-    const hasil = await translateWithKongresAksaraJawa(indo);
+    const hasil = await translateWithKongresAksaraJawa(text);
     res.json({ result: hasil });
   } catch (err) {
     console.error("Translation error:", err);

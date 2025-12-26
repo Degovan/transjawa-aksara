@@ -33,11 +33,23 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 
 WORKDIR /app
 
+# Create a non-root user
+RUN groupadd -r nodeuser && useradd -r -g nodeuser -G audio,video nodeuser \
+    && mkdir -p /home/nodeuser/Downloads \
+    && chown -R nodeuser:nodeuser /home/nodeuser \
+    && chown -R nodeuser:nodeuser /app
+
 COPY package*.json ./
-RUN npm install --production
+RUN npm install --omit=dev
 
 COPY . .
 
+# Change ownership of app files to non-root user
+RUN chown -R nodeuser:nodeuser /app
+
+# Switch to non-root user
+USER nodeuser
+
 EXPOSE 3000
 
-CMD ["node", "index.js"]
+CMD ["node", "src/server.js"]
