@@ -1,11 +1,16 @@
-version: '3.8'
+version: "3.8"
 
 services:
   aksara:
+    container_name: transjawa-aksara
     build: .
-    container_name: aksara
     ports:
-      - "3000:3000"
+      - "9001:8090"
     restart: unless-stopped
     environment:
       - NODE_ENV=production
+
+networks:
+  default:
+    name: transjawa-network
+    external: true
