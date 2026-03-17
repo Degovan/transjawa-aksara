@@ -50,6 +50,6 @@ RUN chown -R nodeuser:nodeuser /app
 # Switch to non-root user
 USER nodeuser
 
-EXPOSE 3000
+EXPOSE 80
 
 CMD ["node", "src/server.js"]

@@ -5,7 +5,7 @@ services:
     container_name: transjawa-aksara
     build: .
     ports:
-      - "9001:8090"
+      - "9001:80"
     restart: unless-stopped
     environment:
       - NODE_ENV=production
