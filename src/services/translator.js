@@ -9,7 +9,7 @@ let page = null;
 const TARGET_URL = "https://kongresaksarajawa.id/salinsaja/";
 
 const LAUNCH_ARGS = {
-  headless: false,
+  headless: true,
   executablePath:
     process.env.CHROME_EXECUTABLE_PATH || "/usr/bin/google-chrome-stable",
   args: [
