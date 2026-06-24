@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import { createApp } from "./app.js";
+import { initBrowser, closeBrowser } from "./services/translator.js";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -9,12 +10,26 @@ const PORT = process.env.PORT || 80;
 /**
  * Start the server
  */
-export function startServer() {
+export async function startServer() {
   const app = createApp();
 
-  app.listen(PORT, () => {
+  // Initialize browser before accepting requests
+  await initBrowser();
+
+  const server = app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
   });
+
+  // Graceful shutdown
+  const shutdown = async () => {
+    console.log("Shutting down...");
+    server.close();
+    await closeBrowser();
+    process.exit(0);
+  };
+
+  process.on("SIGINT", shutdown);
+  process.on("SIGTERM", shutdown);
 }
 
 // Start server if this file is run directly
